@@ -1,0 +1,143 @@
+/* takomaru — base styles shared across artboards */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root{
+  --bg: #faf8f3;
+  --paper: #f0eadb;
+  --ink: #1a1816;
+  --ink-soft: #4a4640;
+  --rule: #d8cfbe;
+  --wood: #c69e6c;
+  --wood-deep: #8a6740;
+  --sage: #5b6b4a;
+  --sage-deep: #3d4a32;
+  --rust: #b35a3a;
+  --serif: "Cormorant Garamond", "Noto Serif JP", serif;
+  --jp-serif: "Noto Serif JP", serif;
+  --sans: "Noto Sans JP", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* artboards run inside design canvas; reset their box */
+.tk-art{
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  width: 100%;
+  position: relative;
+  font-feature-settings: "palt";
+  -webkit-font-smoothing: antialiased;
+}
+.tk-art *{ box-sizing: border-box; }
+
+/* utility */
+.tk-mono{ font-family: var(--mono); letter-spacing: 0.02em; }
+.tk-serif{ font-family: var(--serif); }
+.tk-jp-serif{ font-family: var(--jp-serif); }
+.tk-rule{ border-top: 1px solid var(--rule); }
+.tk-thinrule{ border-top: 0.5px solid var(--ink); }
+.tk-vrule{ border-left: 1px solid var(--rule); }
+
+.tk-eye{
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* magazine cover-stamp */
+.tk-stamp{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--ink);
+  padding: 4px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* reusable thumbnail/image placeholder — striped */
+.tk-img{
+  position: relative;
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(31,24,16,0.04) 0 6px,
+      rgba(31,24,16,0.00) 6px 14px),
+    var(--paper);
+  overflow: hidden;
+  border: 1px solid var(--rule);
+}
+.tk-img-label{
+  position: absolute; left: 12px; bottom: 10px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+.tk-img-num{
+  position: absolute; right: 10px; top: 8px;
+  font-family: var(--mono); font-size: 10px; color: var(--ink-soft);
+}
+
+/* simple buttons */
+.tk-btn{
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 18px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.tk-btn:hover{ background: var(--ink); color: var(--bg); }
+.tk-btn-fill{ background: var(--ink); color: var(--bg); }
+.tk-btn-fill:hover{ background: var(--wood-deep); border-color: var(--wood-deep); }
+
+/* drop cap */
+.tk-dropcap::first-letter{
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 5.2em;
+  line-height: 0.85;
+  float: left;
+  padding: 0.05em 0.12em 0 0;
+  color: var(--wood-deep);
+}
+
+/* tag pill */
+.tk-tag{
+  display: inline-block;
+  padding: 3px 8px;
+  border: 0.5px solid var(--ink-soft);
+  border-radius: 999px;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+
+/* takomaru float */
+.tk-takomaru{
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* page number */
+.tk-page{
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* focus mode adjustments — fill viewport */
+.dc-focus .tk-art{ overflow-y: auto; }
