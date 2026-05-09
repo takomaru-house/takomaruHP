@@ -334,8 +334,74 @@ const VIDEO_CATEGORIES = [
   },
 ];
 
+// ── Takotsubo (octopus pot) illustration ───────────────────────────────────
+// Traditional Japanese unglazed pottery, hand-drawn line-art style.
+// light=true: inverts to cream lines for use on dark backgrounds.
+function TakoTsubo({ width = 200, height = 270, style = {}, light = false }) {
+  const stroke  = light ? "rgba(245,241,232,0.9)" : "var(--ink)";
+  const fill    = light ? "rgba(245,241,232,0.08)" : "var(--wood)";
+  const fillOp  = light ? 1 : 0.16;
+  const hatchOp = light ? 0.18 : 0.28;
+  const shadeOp = light ? 0.12 : 0.18;
+
+  return (
+    <svg viewBox="0 0 180 240" width={width} height={height}
+         style={style} aria-hidden="true">
+
+      {/* ── Body fill ── */}
+      <path
+        d="M 90 218
+           C 65 218, 18 190, 18 155
+           C 18 115, 28 86, 40 76
+           C 40 56, 54 32, 66 29
+           Q 90 21, 114 29
+           C 126 32, 140 56, 140 76
+           C 152 86, 162 115, 162 155
+           C 162 190, 115 218, 90 218 Z"
+        fill={fill} fillOpacity={fillOp}
+        stroke={stroke} strokeWidth="1.6" strokeLinejoin="round"
+      />
+
+      {/* ── Rim outer ellipse (the lip) ── */}
+      <ellipse cx="90" cy="29" rx="26" ry="9"
+        fill={fill} fillOpacity={fillOp * 0.8}
+        stroke={stroke} strokeWidth="1.2" />
+
+      {/* ── Opening inner (the hole) ── */}
+      <ellipse cx="90" cy="23" rx="20" ry="6.5"
+        fill={light ? "rgba(245,241,232,0.12)" : "rgba(26,24,22,0.10)"}
+        stroke={stroke} strokeWidth="0.8" />
+
+      {/* ── Wheel-throwing texture lines ── */}
+      <ellipse cx="90" cy="84"  rx="48" ry="7"  fill="none" stroke={stroke} strokeWidth="0.5" strokeOpacity={hatchOp} />
+      <ellipse cx="90" cy="112" rx="60" ry="9"  fill="none" stroke={stroke} strokeWidth="0.5" strokeOpacity={hatchOp * 0.9} />
+      <ellipse cx="90" cy="140" rx="68" ry="10" fill="none" stroke={stroke} strokeWidth="0.5" strokeOpacity={hatchOp * 0.85} />
+      <ellipse cx="90" cy="168" rx="62" ry="9"  fill="none" stroke={stroke} strokeWidth="0.5" strokeOpacity={hatchOp * 0.75} />
+      <ellipse cx="90" cy="192" rx="50" ry="7"  fill="none" stroke={stroke} strokeWidth="0.4" strokeOpacity={hatchOp * 0.6} />
+
+      {/* ── Side shading curves (right face darker) ── */}
+      <path d="M 132 79 C 150 104, 155 132, 150 162 C 146 182, 136 200, 122 212"
+        fill="none" stroke={stroke} strokeWidth="0.8" strokeOpacity={shadeOp} />
+      <path d="M 140 92 C 155 118, 158 148, 152 176"
+        fill="none" stroke={stroke} strokeWidth="0.5" strokeOpacity={shadeOp * 0.7} />
+
+      {/* ── Ground shadow ellipse ── */}
+      <ellipse cx="90" cy="226" rx="52" ry="9"
+        fill={stroke} fillOpacity={light ? 0.12 : 0.06} />
+
+      {/* ── Small label ── */}
+      <text x="90" y="238" textAnchor="middle"
+        fontFamily="var(--mono)" fontSize="8" letterSpacing="0.14em"
+        fill={stroke} fillOpacity={light ? 0.35 : 0.3}>
+        TAKOTSUBO
+      </text>
+    </svg>
+  );
+}
+
 // expose for other Babel scripts
 Object.assign(window, {
   Takomaru, FloorPlan, Elevation, WindowView, IsoHouse, FurnitureMark,
+  TakoTsubo,
   TOOLS, VIDEO_CATEGORIES,
 });

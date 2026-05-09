@@ -1,7 +1,6 @@
-// artboard-archive.jsx — Variant C: Minimalist Archive / Index
-// Catalog-like, mostly type, dense list of contents, almost like a book index.
-// Sage accent, generous negative space, character used sparingly.
-// ----------------------------------------------------------------------------
+// artboard-archive.jsx — Enhanced Edition
+// Variant C: Minimalist Archive / Index — polished interactions + animations
+// ─────────────────────────────────────────────────────────────────────────────
 
 function ArtboardArchive() {
   return (
@@ -9,7 +8,126 @@ function ArtboardArchive() {
       <style>{`
         html { scroll-snap-type: y proximity; scroll-behavior: smooth; }
         .tk-art > .tk-snap { scroll-snap-align: start; scroll-snap-stop: always; }
+
+        /* ── Entrance animations ── */
+        @keyframes ar-rise {
+          from { opacity: 0; transform: translateY(32px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes ar-fade { from { opacity: 0; } to { opacity: 1; } }
+
+        .ar-hero-t1 { animation: ar-rise 1s    cubic-bezier(0.16,1,0.3,1) 0.05s both; }
+        .ar-hero-t2 { animation: ar-rise 1s    cubic-bezier(0.16,1,0.3,1) 0.18s both; }
+        .ar-hero-ch { animation: ar-rise 0.9s  cubic-bezier(0.16,1,0.3,1) 0.28s both; }
+        .ar-hero-mt { animation: ar-rise 0.85s cubic-bezier(0.16,1,0.3,1) 0.42s both; }
+        .ar-hero-bt { animation: ar-rise 0.75s cubic-bezier(0.16,1,0.3,1) 0.58s both; }
+
+        /* ── Scroll-triggered reveals ── */
+        .ar-reveal {
+          opacity: 0; transform: translateY(22px);
+          transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1),
+                      transform 0.85s cubic-bezier(0.16,1,0.3,1);
+        }
+        .ar-reveal.in { opacity: 1; transform: translateY(0); }
+        .ar-reveal.d1 { transition-delay: 0.07s; }
+        .ar-reveal.d2 { transition-delay: 0.15s; }
+        .ar-reveal.d3 { transition-delay: 0.24s; }
+
+        /* ── Scroll progress bar ── */
+        .ar-progress {
+          position: fixed; top: 0; left: 0; height: 2px; width: 0;
+          background: linear-gradient(90deg, var(--sage-deep) 0%, var(--wood) 100%);
+          z-index: 9999; pointer-events: none;
+          transition: width 0.06s linear;
+        }
+
+        /* ── Sticky header ── */
+        .ar-header {
+          position: sticky; top: 0; z-index: 100;
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          background: rgba(245,241,232,0.88);
+          transition: box-shadow 0.3s ease;
+        }
+        .ar-header.shadow { box-shadow: 0 1px 0 rgba(26,24,22,0.14); }
+
+        /* ── Tool rows ── */
+        .ar-tool-row { transition: background 0.22s ease; }
+        .ar-tool-row:hover { background: rgba(61,74,50,0.045); }
+        .ar-tool-thumb {
+          transition: transform 0.32s cubic-bezier(0.16,1,0.3,1), box-shadow 0.32s;
+          overflow: hidden;
+        }
+        .ar-tool-row:hover .ar-tool-thumb {
+          transform: translateY(-3px);
+          box-shadow: 0 6px 18px rgba(26,24,22,0.14);
+        }
+        .ar-tool-arrow { transition: transform 0.26s cubic-bezier(0.16,1,0.3,1); display: inline-block; }
+        .ar-tool-row:hover .ar-tool-arrow { transform: translate(4px,-4px); }
+        .ar-tool-status { transition: color 0.2s; }
+
+        /* ── Video rows ── */
+        .ar-video-row { transition: background 0.18s ease; cursor: pointer; }
+        .ar-video-row:hover { background: rgba(26,24,22,0.04); }
+        .ar-video-thumb {
+          transition: transform 0.28s cubic-bezier(0.16,1,0.3,1), box-shadow 0.28s;
+          overflow: hidden;
+        }
+        .ar-video-row:hover .ar-video-thumb {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(26,24,22,0.16);
+        }
+        .ar-play-icon {
+          opacity: 0; transform: scale(0.8);
+          transition: opacity 0.18s, transform 0.18s cubic-bezier(0.16,1,0.3,1);
+        }
+        .ar-video-row:hover .ar-play-icon { opacity: 1; transform: scale(1); }
+
+        /* ── Hero buttons ── */
+        .ar-btn-filled {
+          transition: transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.22s !important;
+        }
+        .ar-btn-filled:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 8px 28px rgba(26,24,22,0.26) !important;
+        }
+        .ar-btn-outline {
+          transition: background 0.18s, color 0.18s,
+                      transform 0.18s cubic-bezier(0.16,1,0.3,1) !important;
+        }
+        .ar-btn-outline:hover {
+          background: var(--ink) !important;
+          color: #f5f1e8 !important;
+          transform: translateY(-2px) !important;
+        }
+
+        /* ── Social links ── */
+        .ar-social-row {
+          transition: padding-left 0.22s cubic-bezier(0.16,1,0.3,1), background 0.18s;
+        }
+        .ar-social-row:hover { background: rgba(245,241,232,0.06); }
+        .ar-social-arr {
+          transition: transform 0.22s cubic-bezier(0.16,1,0.3,1);
+          display: inline-block;
+        }
+        .ar-social-row:hover .ar-social-arr { transform: translateX(3px); }
+
+        /* ── Stats ── */
+        .ar-stat { transition: transform 0.26s cubic-bezier(0.16,1,0.3,1); }
+        .ar-stat:hover { transform: translateY(-4px); }
+        .ar-stat-n { transition: color 0.26s; }
+        .ar-stat:hover .ar-stat-n { color: var(--wood-deep) !important; }
+
+        /* ── Marquee ── */
+        @keyframes ar-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .ar-marquee-track { animation: ar-marquee 72s linear infinite; will-change: transform; }
+        .ar-marquee-track:hover { animation-play-state: paused; }
+
+        /* ── Contact email ── */
+        .ar-email-link { transition: letter-spacing 0.3s cubic-bezier(0.16,1,0.3,1); }
+        .ar-email-link:hover { letter-spacing: 0.01em !important; }
       `}</style>
+      <ArScrollProgress />
       <ArHeader />
       <ArHero />
       <ArManifesto />
@@ -17,13 +135,55 @@ function ArtboardArchive() {
       <ArVideos />
       <ArAbout />
       <ArContact />
-    </div>);
-
+    </div>
+  );
 }
 
+// ── Scroll progress bar ────────────────────────────────────────────────────
+function ArScrollProgress() {
+  const [pct, setPct] = React.useState(0);
+  React.useEffect(() => {
+    const update = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docH = Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight
+      );
+      const total = docH - window.innerHeight;
+      setPct(total > 0 ? Math.min(100, (scrollTop / total) * 100) : 0);
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+  return <div className="ar-progress" style={{ width: pct + '%' }} />;
+}
+
+// ── useReveal: IntersectionObserver hook ──────────────────────────────────
+function useReveal(ref, threshold = 0.1) {
+  const [visible, setVisible] = React.useState(false);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return visible;
+}
+
+// ── Header ────────────────────────────────────────────────────────────────
 function ArHeader() {
+  const [shadow, setShadow] = React.useState(false);
+  React.useEffect(() => {
+    const update = () => setShadow(window.scrollY > 10);
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
   return (
-    <div style={{
+    <div className={`ar-header ${shadow ? 'shadow' : ''}`} style={{
       padding: "20px 64px", borderBottom: "0.5px solid var(--ink)",
       display: "grid", gridTemplateColumns: "1fr 1fr 1fr", alignItems: "center"
     }}>
@@ -36,11 +196,11 @@ function ArHeader() {
       <div className="tk-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: "var(--ink-soft)", textAlign: "right" }}>
         2026.03 · KYOTO · JP/EN
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
-// ── Hero ───────────────────────────────────────────────────────────────────
+// ── Hero ──────────────────────────────────────────────────────────────────
 function ArHero() {
   return (
     <div className="tk-snap" style={{ borderBottom: "0.5px solid var(--ink)", position: "relative", padding: "80px 64px", overflow: "hidden" }}>
@@ -73,60 +233,61 @@ function ArHero() {
         background: "linear-gradient(180deg, var(--cream) 0%, transparent 18%, transparent 82%, var(--cream) 100%), radial-gradient(ellipse at center, transparent 30%, var(--cream) 90%)",
         opacity: 0.78
       }}></div>
+
       <div style={{ position: "relative" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "end", gap: 48 }}>
-        <div>
-          <h1 style={{
-              fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "end", gap: 48 }}>
+          <div>
+            <h1 style={{
+              fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "normal",
               lineHeight: 0.86, letterSpacing: "-0.03em",
               color: "var(--ink)", fontSize: "120px", margin: "0px"
             }}>
-            Takomaru,<br />
-            <span style={{ fontStyle: "normal", fontFamily: "var(--jp-serif)", fontWeight: 300,
-                fontSize: 180, color: "var(--sage-deep)" }}>たこまる</span>
-          </h1>
-        </div>
-        <div style={{ textAlign: "right", marginBottom: 24 }}>
-          <Takomaru size={140} rot={-4} />
-        </div>
-      </div>
-
-      <div style={{ marginTop: 40, display: "grid", gridTemplateColumns: "320px 1fr 320px", gap: 56,
-          alignItems: "start", borderTop: "0.5px solid var(--ink)", paddingTop: 32 }}>
-        <div className="tk-eye">A QUIET ARCHIVE OF<br />HOUSING, IN THREE PARTS.</div>
-        <div style={{ fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 2.05, textAlign: "justify", width: "750px" }}>このサイトは、住宅を考えるための小さな書庫です。<br />
-注文住宅について、タコまるが 動画と道具で残してきたものを整理していますa。<br />
-ご自由にご覧下さい。
-
-
+              <span className="ar-hero-t1" style={{ display: "block" }}>タコまるの</span>
+              <span className="ar-hero-t2" style={{ display: "block", fontStyle: "normal", fontFamily: "var(--jp-serif)", fontWeight: 300, fontSize: 120, color: "var(--sage-deep)" }}>
+                家づくりのツボ
+              </span>
+            </h1>
           </div>
-        <div style={{ textAlign: "right" }}>
-          <div className="tk-eye" style={{ display: "inline-block", textAlign: "left", fontSize: 11 }}>
-            3 SECTIONS · 142 FILMS<br />3 TOOLS · ∞ NOTES
+          <div className="ar-hero-ch" style={{ textAlign: "right", marginBottom: 24 }}>
+            <Takomaru size={140} rot={-4} />
           </div>
         </div>
-      </div>
 
-      <div style={{ marginTop: 40, display: "flex", gap: 16, justifyContent: "center" }}>
-        <a href="#tools" style={{ padding: "16px 28px", border: "0.5px solid var(--ink)", color: "var(--ink)",
-            fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase",
-            textDecoration: "none", background: "var(--ink)", color: "#f5f1e8" }}>
-          道具へ — TOOLS
-        </a>
-        <a href="#films" style={{ padding: "16px 28px", border: "0.5px solid var(--ink)", color: "var(--ink)",
-            fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase",
-            textDecoration: "none" }}>
-          映像へ — FILMS
-        </a>
-        <a href="#about" style={{ padding: "16px 28px", border: "0.5px solid var(--ink)", color: "var(--ink)",
-            fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase",
-            textDecoration: "none" }}>
-          タコまる — ABOUT
-        </a>
-      </div>
-      </div>
-    </div>);
+        <div className="ar-hero-mt" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "320px 1fr 320px", gap: 56,
+            alignItems: "start", borderTop: "0.5px solid var(--ink)", paddingTop: 32 }}>
+          <div className="tk-eye">A QUIET ARCHIVE OF<br />HOUSING, IN THREE PARTS.</div>
+          <div style={{ fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 2.05, textAlign: "justify", width: "750px" }}>
+            このサイトは、住宅を考えるための小さな書庫です。<br />
+            注文住宅について、タコまるが 動画と道具で残してきたものを整理しています。<br />
+            ご自由にご覧下さい。
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div className="tk-eye" style={{ display: "inline-block", textAlign: "left", fontSize: 11 }}>
+              3 SECTIONS · 142 FILMS<br />3 TOOLS · ∞ NOTES
+            </div>
+          </div>
+        </div>
 
+        <div className="ar-hero-bt" style={{ marginTop: 40, display: "flex", gap: 16, justifyContent: "center" }}>
+          <a href="#tools" className="ar-btn-filled" style={{ padding: "16px 28px", border: "0.5px solid var(--ink)",
+              fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase",
+              textDecoration: "none", background: "var(--ink)", color: "#f5f1e8", display: "inline-block" }}>
+            道具へ — TOOLS
+          </a>
+          <a href="#films" className="ar-btn-outline" style={{ padding: "16px 28px", border: "0.5px solid var(--ink)", color: "var(--ink)",
+              fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase",
+              textDecoration: "none", display: "inline-block" }}>
+            映像へ — FILMS
+          </a>
+          <a href="#about" className="ar-btn-outline" style={{ padding: "16px 28px", border: "0.5px solid var(--ink)", color: "var(--ink)",
+              fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase",
+              textDecoration: "none", display: "inline-block" }}>
+            タコまる — ABOUT
+          </a>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ── Manifesto strip ────────────────────────────────────────────────────────
@@ -147,11 +308,6 @@ function ArManifesto() {
   const loop = [...quotes, ...quotes];
   return (
     <div className="tk-snap" style={{ padding: "48px 0", borderBottom: "0.5px solid var(--ink)", background: "var(--sage-deep)", color: "#f5f1e8", overflow: "hidden", position: "relative" }}>
-      <style>{`
-        @keyframes ar-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .ar-marquee-track { animation: ar-marquee 60s linear infinite; will-change: transform; }
-        .ar-marquee-track:hover { animation-play-state: paused; }
-      `}</style>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 64px 28px" }}>
         <div className="tk-mono" style={{ fontSize: 10, letterSpacing: "0.18em", color: "rgba(245,241,232,0.6)" }}>
           ARCHIVE NOTES · §00 — TAKOMARU SAYS
@@ -160,14 +316,14 @@ function ArManifesto() {
           ※ HOVER TO PAUSE
         </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center", whiteSpace: "nowrap" }} className="ar-marquee-track">
+      <div style={{ display: "flex", alignItems: "center", whiteSpace: "nowrap", width: "max-content" }} className="ar-marquee-track">
         {loop.map((q, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", gap: 32, paddingRight: 64 }}>
             <span style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.16em", color: "rgba(245,241,232,0.5)" }}>
               {String((i % quotes.length) + 1).padStart(2, "0")}
             </span>
             <span style={{ fontFamily: "var(--jp-serif)", fontStyle: "italic", fontSize: 38, lineHeight: 1, fontWeight: 300 }}>
-              “ {q} ”
+              " {q} "
             </span>
             <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--wood)", flexShrink: 0 }}></span>
           </div>
@@ -175,16 +331,18 @@ function ArManifesto() {
       </div>
       <div aria-hidden="true" style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 80, background: "linear-gradient(90deg, var(--sage-deep), transparent)", pointerEvents: "none" }}></div>
       <div aria-hidden="true" style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 80, background: "linear-gradient(270deg, var(--sage-deep), transparent)", pointerEvents: "none" }}></div>
-    </div>);
-
+    </div>
+  );
 }
 
-// ── Tools — index style ────────────────────────────────────────────────────
+// ── Tools ─────────────────────────────────────────────────────────────────
 function ArTools() {
+  const sectionRef = React.useRef(null);
+  const visible = useReveal(sectionRef, 0.08);
   return (
     <div id="tools" className="tk-snap" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)" }}>
       <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
-        <div style={{ position: "sticky", top: 24 }}>
+        <div style={{ position: "sticky", top: 80 }}>
           <div className="tk-eye" style={{ color: "var(--sage-deep)" }}>§ 01</div>
           <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
             fontSize: 80, lineHeight: 0.9, margin: "16px 0 0" }}>
@@ -202,9 +360,13 @@ function ArTools() {
           </div>
         </div>
 
-        <div>
-          {TOOLS.map((t, i) => <ArToolRow key={t.id} t={t} i={i} />)}
-          <div style={{
+        <div ref={sectionRef}>
+          {TOOLS.map((t, i) => (
+            <div key={t.id} className={`ar-reveal d${Math.min(i+1,3)} ${visible ? 'in' : ''}`}>
+              <ArToolRow t={t} i={i} />
+            </div>
+          ))}
+          <div className={`ar-reveal d3 ${visible ? 'in' : ''}`} style={{
             marginTop: 24, padding: "32px 32px",
             border: "0.5px dashed var(--ink-soft)",
             display: "flex", justifyContent: "space-between", alignItems: "center"
@@ -226,14 +388,14 @@ function ArTools() {
           </div>
         </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
 function ArToolRow({ t, i }) {
   return (
     <a href="#" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-      <div style={{
+      <div className="ar-tool-row" style={{
         display: "grid", gridTemplateColumns: "70px 1.4fr 1fr 240px 80px",
         gap: 24, alignItems: "start",
         padding: "32px 0",
@@ -253,16 +415,16 @@ function ArToolRow({ t, i }) {
         <div style={{ fontFamily: "var(--jp-serif)", fontSize: 14, lineHeight: 1.85 }}>
           {t.desc}
         </div>
-        <div style={{ height: 100, border: "0.5px solid var(--ink)" }}>
+        <div className="ar-tool-thumb" style={{ height: 100, border: "0.5px solid var(--ink)" }}>
           {t.icon === "plan" && <FloorPlan width={240} height={100} label="" showFurniture={false} />}
           {t.icon === "compare" &&
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, height: "100%", padding: 6, background: "var(--paper)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, height: "100%", padding: 6, background: "var(--paper)" }}>
               <div className="tk-img" style={{ borderColor: "var(--ink)" }} />
               <div className="tk-img" style={{ background: `repeating-linear-gradient(135deg, rgba(179,90,58,0.12) 0 6px, rgba(0,0,0,0) 6px 14px), var(--paper)`, borderColor: "var(--rust)" }} />
             </div>
           }
           {t.icon === "land" &&
-          <svg viewBox="0 0 240 100" width="100%" height="100%" style={{ background: "var(--paper)" }}>
+            <svg viewBox="0 0 240 100" width="100%" height="100%" style={{ background: "var(--paper)" }}>
               <g stroke="var(--ink)" strokeWidth="1" fill="none">
                 <polygon points="20,80 50,30 100,40 110,80" fill="var(--bg)" />
                 <polygon points="130,80 140,40 200,30 220,80" fill="var(--bg)" />
@@ -272,20 +434,23 @@ function ArToolRow({ t, i }) {
           }
         </div>
         <div style={{ textAlign: "right" }}>
-          <div className="tk-mono" style={{ fontSize: 10, letterSpacing: "0.12em",
+          <div className="tk-mono ar-tool-status" style={{ fontSize: 10, letterSpacing: "0.12em",
             color: t.status.includes("LIVE") ? "var(--sage-deep)" : "var(--ink-soft)" }}>
             ●&nbsp;{t.status.split(" / ")[1]}
           </div>
-          <div className="tk-mono" style={{ marginTop: 18, fontSize: 12 }}>OPEN ↗</div>
+          <div className="tk-mono" style={{ marginTop: 18, fontSize: 12 }}>
+            OPEN&nbsp;<span className="ar-tool-arrow">↗</span>
+          </div>
         </div>
       </div>
-    </a>);
-
+    </a>
+  );
 }
 
-// ── Videos — index ─────────────────────────────────────────────────────────
+// ── Videos ────────────────────────────────────────────────────────────────
 function ArVideos() {
-  const allVideos = [].concat(...VIDEO_CATEGORIES.map((c) => c.videos.map((v) => ({ ...v, cat: c }))));
+  const sectionRef = React.useRef(null);
+  const visible = useReveal(sectionRef, 0.06);
   return (
     <div id="films" className="tk-snap" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)", background: "#efeadc" }}>
       <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
@@ -304,44 +469,55 @@ function ArVideos() {
           <Takomaru size={96} style={{ marginTop: 28, transform: "rotate(6deg)" }} />
         </div>
 
-        <div>
-          {VIDEO_CATEGORIES.map((cat, ci) =>
-          <div key={cat.id} style={{ marginBottom: ci < VIDEO_CATEGORIES.length - 1 ? 56 : 0 }}>
+        <div ref={sectionRef}>
+          {VIDEO_CATEGORIES.map((cat, ci) => (
+            <div key={cat.id} className={`ar-reveal d${Math.min(ci+1,3)} ${visible ? 'in' : ''}`}
+                 style={{ marginBottom: ci < VIDEO_CATEGORIES.length - 1 ? 56 : 0 }}>
               <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 16,
-              alignItems: "baseline", paddingBottom: 12, borderBottom: "1px solid var(--ink)" }}>
+                alignItems: "baseline", paddingBottom: 12, borderBottom: "1px solid var(--ink)" }}>
                 <div className="tk-page" style={{ fontSize: 22, color: "var(--sage-deep)" }}>
                   S/{String(ci + 1).padStart(2, "0")}
                 </div>
                 <div>
                   <h3 style={{ fontFamily: "var(--jp-serif)", fontSize: 26, fontWeight: 500,
-                  margin: 0, lineHeight: 1.2 }}>{cat.jp}</h3>
+                    margin: 0, lineHeight: 1.2 }}>{cat.jp}</h3>
                   <div style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 16, color: "var(--ink-soft)" }}>
                     {cat.en} — {cat.sub}
                   </div>
                 </div>
                 <a href="#" className="tk-mono" style={{ fontSize: 11, letterSpacing: "0.14em",
-                color: "var(--ink)", textDecoration: "none" }}>ALL →</a>
+                  color: "var(--ink)", textDecoration: "none" }}>ALL →</a>
               </div>
               <div>
-                {cat.videos.map((v, vi) =>
-              <a key={vi} href="#" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                    <div style={{ display: "grid", gridTemplateColumns: "60px 80px 1fr 1fr 80px",
-                  gap: 18, alignItems: "center",
-                  padding: "16px 0",
-                  borderBottom: "0.5px solid var(--rule)"
-                }}>
+                {cat.videos.map((v, vi) => (
+                  <a key={vi} href="#" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+                    <div className="ar-video-row" style={{
+                      display: "grid", gridTemplateColumns: "60px 80px 1fr 1fr 80px",
+                      gap: 18, alignItems: "center",
+                      padding: "16px 0",
+                      borderBottom: "0.5px solid var(--rule)"
+                    }}>
                       <span className="tk-mono" style={{ fontSize: 11, color: "var(--ink-soft)" }}>{v.num}</span>
-                      <div style={{ width: 80, height: 50, border: "0.5px solid var(--ink)", overflow: "hidden", background: "var(--paper)" }}>
+                      <div className="ar-video-thumb" style={{ width: 80, height: 50, border: "0.5px solid var(--ink)", background: "var(--paper)", position: "relative" }}>
                         {ci === 0 && <FloorPlan width={80} height={50} label="" showFurniture={false} />}
                         {ci === 1 && <Elevation width={80} height={50} label="" />}
                         {ci === 2 &&
-                    <svg viewBox="0 0 80 50" width="100%" height="100%">
+                          <svg viewBox="0 0 80 50" width="100%" height="100%">
                             <g stroke="var(--ink)" strokeWidth="0.8" fill="none">
                               <polygon points="6,42 16,12 64,12 74,42" fill="var(--bg)" />
                               <polygon points="32,42 32,24 48,24 48,42" fill="var(--wood)" fillOpacity="0.4" />
                             </g>
                           </svg>
-                    }
+                        }
+                        <div className="ar-play-icon" style={{
+                          position: "absolute", inset: 0, display: "flex",
+                          alignItems: "center", justifyContent: "center",
+                          background: "rgba(26,24,22,0.52)"
+                        }}>
+                          <svg viewBox="0 0 20 20" width="18" height="18">
+                            <polygon points="6,4 16,10 6,16" fill="#f5f1e8" />
+                          </svg>
+                        </div>
                       </div>
                       <div style={{ fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 1.4 }}>{v.jp}</div>
                       <div style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 14, color: "var(--ink-soft)" }}>
@@ -350,20 +526,30 @@ function ArVideos() {
                       <div className="tk-mono" style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "right" }}>▶ {v.min}</div>
                     </div>
                   </a>
-              )}
+                ))}
               </div>
             </div>
-          )}
+          ))}
         </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
-// ── About ──────────────────────────────────────────────────────────────────
+// ── About ─────────────────────────────────────────────────────────────────
 function ArAbout() {
+  const statsRef = React.useRef(null);
+  const visible = useReveal(statsRef, 0.15);
   return (
-    <div id="about" className="tk-snap" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)" }}>
+    <div id="about" className="tk-snap" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)", position: "relative", overflow: "hidden" }}>
+      {/* Background watermark */}
+      <div aria-hidden="true" style={{
+        position: "absolute", right: -50, top: "50%",
+        transform: "translateY(-50%)",
+        opacity: 0.07, pointerEvents: "none"
+      }}>
+        <TakoTsubo width={440} height={594} />
+      </div>
       <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
         <div>
           <div className="tk-eye" style={{ color: "var(--sage-deep)" }}>§ 03</div>
@@ -381,13 +567,7 @@ function ArAbout() {
               fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 2.1,
               textAlign: "justify", margin: 0
             }}>メガネをかけた、たこやきのような何か。家づくりを始めました。
-施主目線で注文住宅の話題を扱っています。 YouTube に動画を投稿し、合間に自分が欲しかった 小道具を作って並べています。 この場所はその店先のようなもので、商品はぜんぶ無料、 コーヒーもないけれど、よかったら少しだけ見ていってください。
-
-
-
-
-
-
+施主目線で注文住宅の話題を扱っています。 YouTube に動画を投稿し、合間に自分が欲しかった 小道具を作って並べています。 この場所はその店先のようなもので、商品はぜんぶ無料、 コーヒーもないけれど、よかったら少しだけ見ていってください。
             </p>
             <div>
               <Takomaru size={220} />
@@ -398,30 +578,39 @@ function ArAbout() {
             </div>
           </div>
 
-          <div style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+          <div ref={statsRef} style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
             borderTop: "1px solid var(--ink)", borderBottom: "1px solid var(--ink)" }}>
             {[
-            { n: "2025", l: "始まり" },
-            { n: "3", l: "本の動画" },
-            { n: "0.01k", l: "登録者" },
-            { n: "03 / ∞", l: "公開中の道具" }].
-            map((s, i) =>
-            <div key={i} style={{ padding: "24px 0", borderRight: i < 3 ? "0.5px solid var(--rule)" : "none", paddingRight: 16, paddingLeft: i > 0 ? 16 : 0 }}>
-                <div style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: 48, lineHeight: 1, color: "var(--sage-deep)" }}>{s.n}</div>
+              { n: "2025", l: "始まり" },
+              { n: "3",    l: "本の動画" },
+              { n: "0.01k", l: "登録者" },
+              { n: "03 / ∞", l: "公開中の道具" }
+            ].map((s, i) => (
+              <div key={i} className={`ar-stat ar-reveal d${Math.min(i+1,3)} ${visible ? 'in' : ''}`}
+                   style={{ padding: "24px 0", borderRight: i < 3 ? "0.5px solid var(--rule)" : "none",
+                            paddingRight: 16, paddingLeft: i > 0 ? 16 : 0 }}>
+                <div className="ar-stat-n" style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: 48, lineHeight: 1, color: "var(--sage-deep)" }}>{s.n}</div>
                 <div className="tk-eye" style={{ marginTop: 6, fontSize: 9 }}>{s.l}</div>
               </div>
-            )}
+            ))}
           </div>
         </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
-// ── Contact ────────────────────────────────────────────────────────────────
+// ── Contact ───────────────────────────────────────────────────────────────
 function ArContact() {
   return (
-    <div className="tk-snap" style={{ padding: "100px 64px 64px", background: "var(--ink)", color: "#f5f1e8" }}>
+    <div className="tk-snap" style={{ padding: "100px 64px 64px", background: "var(--ink)", color: "#f5f1e8", position: "relative", overflow: "hidden" }}>
+      {/* Decorative tsubo on dark background */}
+      <div aria-hidden="true" style={{
+        position: "absolute", left: 32, bottom: -30,
+        opacity: 0.18, pointerEvents: "none"
+      }}>
+        <TakoTsubo width={200} height={270} light={true} />
+      </div>
       <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
         <div>
           <div className="tk-eye" style={{ color: "var(--wood)" }}>§ 04</div>
@@ -437,37 +626,37 @@ function ArContact() {
           <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 48, alignItems: "start" }}>
             <div>
               <div className="tk-eye" style={{ color: "var(--wood)" }}>EMAIL</div>
-              <a href="mailto:hello@takomaru.house"
-              style={{ display: "block", marginTop: 12,
-                fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 44,
-                color: "#f5f1e8", textDecoration: "underline", textUnderlineOffset: 6 }}>
+              <a href="mailto:hello@takomaru.house" className="ar-email-link"
+                style={{ display: "block", marginTop: 12,
+                  fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 44,
+                  color: "#f5f1e8", textDecoration: "underline", textUnderlineOffset: 6,
+                  letterSpacing: "-0.01em" }}>
                 hello@takomaru.house
               </a>
               <div style={{ marginTop: 18, fontFamily: "var(--jp-serif)", fontSize: 14, lineHeight: 2,
                 color: "rgba(245,241,232,0.8)", maxWidth: 460 }}>取材・出演・コラボ・道具のリクエストはお気軽に。
 返信は2〜3営業日のうちに。
-
               </div>
             </div>
             <div>
               <div className="tk-eye" style={{ color: "var(--wood)" }}>ELSEWHERE</div>
               <div style={{ marginTop: 12 }}>
                 {[
-                { en: "YOUTUBE", handle: "@takomaru_house" },
-                { en: "X", handle: "@takomaru_house" },
-                { en: "INSTAGRAM", handle: "@takomaru.house" },
-                { en: "NOTE", handle: "/takomaru" }].
-                map((s, i) =>
-                <a key={i} href="#" style={{ textDecoration: "none", color: "inherit" }}>
-                    <div style={{ display: "grid", gridTemplateColumns: "100px 1fr 24px",
-                    alignItems: "baseline", padding: "14px 0",
-                    borderTop: "0.5px solid rgba(245,241,232,0.3)" }}>
+                  { en: "YOUTUBE",   handle: "@takomaru_house" },
+                  { en: "X",         handle: "@takomaru_house" },
+                  { en: "INSTAGRAM", handle: "@takomaru.house" },
+                  { en: "NOTE",      handle: "/takomaru" }
+                ].map((s, i) => (
+                  <a key={i} href="#" style={{ textDecoration: "none", color: "inherit" }}>
+                    <div className="ar-social-row" style={{ display: "grid", gridTemplateColumns: "100px 1fr 24px",
+                      alignItems: "baseline", padding: "14px 0",
+                      borderTop: "0.5px solid rgba(245,241,232,0.3)" }}>
                       <div className="tk-eye" style={{ color: "var(--wood)" }}>{s.en}</div>
                       <div className="tk-mono" style={{ fontSize: 14, color: "#f5f1e8" }}>{s.handle}</div>
-                      <div className="tk-mono" style={{ color: "rgba(245,241,232,0.6)", textAlign: "right" }}>↗</div>
+                      <div className="tk-mono ar-social-arr" style={{ color: "rgba(245,241,232,0.6)", textAlign: "right" }}>↗</div>
                     </div>
                   </a>
-                )}
+                ))}
               </div>
             </div>
           </div>
@@ -486,8 +675,8 @@ function ArContact() {
           </div>
         </div>
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
 window.ArtboardArchive = ArtboardArchive;
