@@ -1,6 +1,14 @@
 // app.jsx — wires DesignCanvas + Tweaks
 // ----------------------------------------------------------------------------
 
+// Inject viewport meta for mobile if missing (bundled HTML omits it)
+if (typeof document !== 'undefined' && !document.querySelector('meta[name="viewport"]')) {
+  const m = document.createElement('meta');
+  m.name = 'viewport';
+  m.content = 'width=device-width, initial-scale=1';
+  document.head.insertBefore(m, document.head.firstChild);
+}
+
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "palette": ["#faf8f3","#1a1816","#c69e6c","#5b6b4a"],
   "fontPair": "serif-jp",

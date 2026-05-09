@@ -1,5 +1,4 @@
-// artboard-archive.jsx — Enhanced Edition
-// Variant C: Minimalist Archive / Index — polished interactions + animations
+// artboard-archive.jsx — Enhanced + Responsive Edition
 // ─────────────────────────────────────────────────────────────────────────────
 
 function ArtboardArchive() {
@@ -126,6 +125,110 @@ function ArtboardArchive() {
         /* ── Contact email ── */
         .ar-email-link { transition: letter-spacing 0.3s cubic-bezier(0.16,1,0.3,1); }
         .ar-email-link:hover { letter-spacing: 0.01em !important; }
+
+        /* ════════════════════════════════════════════════
+           RESPONSIVE — tablet (≤ 1024px)
+        ════════════════════════════════════════════════ */
+        @media (max-width: 1024px) {
+          .ar-hero-desc-text { width: auto !important; font-size: 15px !important; }
+          .ar-hero-meta-r { display: none !important; }
+          .ar-hero-meta-grid {
+            grid-template-columns: 260px 1fr !important;
+            gap: 32px !important;
+          }
+        }
+
+        /* ════════════════════════════════════════════════
+           RESPONSIVE — mobile (≤ 768px)
+        ════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+
+          /* ── Disable scroll snap on mobile (too jarring) ── */
+          html { scroll-snap-type: none !important; }
+          .tk-art > .tk-snap { scroll-snap-align: none !important; }
+
+          /* ── Header ── */
+          .ar-header {
+            padding: 14px 20px !important;
+            grid-template-columns: 1fr auto !important;
+          }
+          .ar-hd-center { display: none !important; }
+
+          /* ── Hero ── */
+          .ar-hero-outer { padding: 40px 20px 48px !important; }
+          .ar-hero-topgrid {
+            grid-template-columns: 1fr !important;
+            gap: 0 !important;
+          }
+          .ar-hero-t1 { font-size: clamp(40px, 10.5vw, 80px) !important; }
+          .ar-hero-t2 { font-size: clamp(40px, 10.5vw, 80px) !important; }
+          .ar-hero-ch {
+            order: -1 !important;
+            text-align: left !important;
+            margin-bottom: 12px !important;
+            margin-top: 0 !important;
+          }
+          .ar-hero-mt {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .ar-hero-meta-l { display: none !important; }
+          .ar-hero-meta-r { display: none !important; }
+          .ar-hero-desc-text { width: auto !important; font-size: 14px !important; line-height: 1.9 !important; }
+          .ar-hero-bt {
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+          .ar-hero-bt a { text-align: center !important; }
+
+          /* ── Section padding ── */
+          .ar-section-pad { padding: 52px 20px 44px !important; }
+
+          /* ── 260px/1fr → single col ── */
+          .ar-2col-grid {
+            grid-template-columns: 1fr !important;
+            gap: 28px !important;
+          }
+          .ar-sticky-col { position: static !important; top: auto !important; }
+          .ar-section-h2 { font-size: 56px !important; }
+
+          /* ── Tool rows: 5-col → 3-col ── */
+          .ar-tool-row-grid {
+            grid-template-columns: 44px 1fr 64px !important;
+            gap: 10px !important;
+            padding: 18px 0 !important;
+          }
+          .ar-tool-col-desc  { display: none !important; }
+          .ar-tool-col-thumb { display: none !important; }
+          .ar-tool-col-title h3 { font-size: 20px !important; }
+          .ar-tool-col-title .tk-serif { font-size: 14px !important; }
+
+          /* ── Video rows: 5-col → 3-col ── */
+          .ar-video-row-grid {
+            grid-template-columns: 64px 1fr 52px !important;
+            gap: 10px !important;
+          }
+          .ar-video-col-num { display: none !important; }
+          .ar-video-col-cat { display: none !important; }
+          .ar-video-title { font-size: 14px !important; line-height: 1.5 !important; }
+
+          /* ── About ── */
+          .ar-about-textgrid { grid-template-columns: 1fr !important; }
+          .ar-about-char { flex-direction: row !important; align-items: center !important; gap: 16px !important; }
+          .ar-stats-grid { grid-template-columns: 1fr 1fr !important; }
+          .ar-stat { padding-left: 0 !important; }
+
+          /* ── Contact ── */
+          .ar-contact-cols { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .ar-email-link { font-size: 26px !important; }
+          .ar-contact-outer { padding: 52px 20px 44px !important; }
+
+          /* ── Manifesto ── */
+          .ar-marquee-track span { font-size: 26px !important; }
+
+          /* ── Misc ── */
+          .ar-hero-bookshelf { display: none !important; }
+        }
       `}</style>
       <ArScrollProgress />
       <ArHeader />
@@ -158,7 +261,7 @@ function ArScrollProgress() {
   return <div className="ar-progress" style={{ width: pct + '%' }} />;
 }
 
-// ── useReveal: IntersectionObserver hook ──────────────────────────────────
+// ── useReveal hook ─────────────────────────────────────────────────────────
 function useReveal(ref, threshold = 0.1) {
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {
@@ -190,11 +293,11 @@ function ArHeader() {
       <div className="tk-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: "var(--ink-soft)" }}>
         TAKOMARU&nbsp;·&nbsp;ARCHIVE
       </div>
-      <div style={{ textAlign: "center", fontFamily: "var(--serif)", fontSize: 18, fontStyle: "italic", color: "var(--ink-soft)" }}>
+      <div className="ar-hd-center" style={{ textAlign: "center", fontFamily: "var(--serif)", fontSize: 18, fontStyle: "italic", color: "var(--ink-soft)" }}>
         an index of houses, films, and tools
       </div>
       <div className="tk-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: "var(--ink-soft)", textAlign: "right" }}>
-        2026.03 · KYOTO · JP/EN
+        2026.03&nbsp;·&nbsp;KYOTO
       </div>
     </div>
   );
@@ -203,9 +306,9 @@ function ArHeader() {
 // ── Hero ──────────────────────────────────────────────────────────────────
 function ArHero() {
   return (
-    <div className="tk-snap" style={{ borderBottom: "0.5px solid var(--ink)", position: "relative", padding: "80px 64px", overflow: "hidden" }}>
+    <div className="tk-snap ar-hero-outer" style={{ borderBottom: "0.5px solid var(--ink)", position: "relative", padding: "80px 64px", overflow: "hidden" }}>
       {/* Bookshelf background */}
-      <div aria-hidden="true" style={{
+      <div className="ar-hero-bookshelf" aria-hidden="true" style={{
         position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.18,
         background: `
           repeating-linear-gradient(180deg, transparent 0 178px, var(--ink) 178px 179.5px, transparent 179.5px 180px),
@@ -235,15 +338,16 @@ function ArHero() {
       }}></div>
 
       <div style={{ position: "relative" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "end", gap: 48 }}>
+        {/* Title + Character */}
+        <div className="ar-hero-topgrid" style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "end", gap: 48 }}>
           <div>
             <h1 style={{
-              fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "normal",
+              fontFamily: "var(--serif)", fontWeight: 300,
               lineHeight: 0.86, letterSpacing: "-0.03em",
-              color: "var(--ink)", fontSize: "120px", margin: "0px"
+              color: "var(--ink)", fontSize: "120px", margin: 0
             }}>
               <span className="ar-hero-t1" style={{ display: "block" }}>タコまるの</span>
-              <span className="ar-hero-t2" style={{ display: "block", fontStyle: "normal", fontFamily: "var(--jp-serif)", fontWeight: 300, fontSize: 120, color: "var(--sage-deep)" }}>
+              <span className="ar-hero-t2" style={{ display: "block", fontFamily: "var(--jp-serif)", fontWeight: 300, fontSize: 120, color: "var(--sage-deep)" }}>
                 家づくりのツボ
               </span>
             </h1>
@@ -253,21 +357,23 @@ function ArHero() {
           </div>
         </div>
 
-        <div className="ar-hero-mt" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "320px 1fr 320px", gap: 56,
+        {/* Meta strip */}
+        <div className="ar-hero-mt ar-hero-meta-grid" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "320px 1fr 320px", gap: 56,
             alignItems: "start", borderTop: "0.5px solid var(--ink)", paddingTop: 32 }}>
-          <div className="tk-eye">A QUIET ARCHIVE OF<br />HOUSING, IN THREE PARTS.</div>
-          <div style={{ fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 2.05, textAlign: "justify", width: "750px" }}>
+          <div className="tk-eye ar-hero-meta-l">A QUIET ARCHIVE OF<br />HOUSING, IN THREE PARTS.</div>
+          <div className="ar-hero-desc-text" style={{ fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 2.05, textAlign: "justify", width: "750px" }}>
             このサイトは、住宅を考えるための小さな書庫です。<br />
             注文住宅について、タコまるが 動画と道具で残してきたものを整理しています。<br />
             ご自由にご覧下さい。
           </div>
-          <div style={{ textAlign: "right" }}>
+          <div className="ar-hero-meta-r" style={{ textAlign: "right" }}>
             <div className="tk-eye" style={{ display: "inline-block", textAlign: "left", fontSize: 11 }}>
               3 SECTIONS · 142 FILMS<br />3 TOOLS · ∞ NOTES
             </div>
           </div>
         </div>
 
+        {/* CTAs */}
         <div className="ar-hero-bt" style={{ marginTop: 40, display: "flex", gap: 16, justifyContent: "center" }}>
           <a href="#tools" className="ar-btn-filled" style={{ padding: "16px 28px", border: "0.5px solid var(--ink)",
               fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase",
@@ -340,11 +446,11 @@ function ArTools() {
   const sectionRef = React.useRef(null);
   const visible = useReveal(sectionRef, 0.08);
   return (
-    <div id="tools" className="tk-snap" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
-        <div style={{ position: "sticky", top: 80 }}>
+    <div id="tools" className="tk-snap ar-section-pad" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)" }}>
+      <div className="ar-2col-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
+        <div className="ar-sticky-col" style={{ position: "sticky", top: 80 }}>
           <div className="tk-eye" style={{ color: "var(--sage-deep)" }}>§ 01</div>
-          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
+          <h2 className="ar-section-h2" style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
             fontSize: 80, lineHeight: 0.9, margin: "16px 0 0" }}>
             Tools
           </h2>
@@ -395,27 +501,27 @@ function ArTools() {
 function ArToolRow({ t, i }) {
   return (
     <a href="#" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-      <div className="ar-tool-row" style={{
+      <div className="ar-tool-row ar-tool-row-grid" style={{
         display: "grid", gridTemplateColumns: "70px 1.4fr 1fr 240px 80px",
         gap: 24, alignItems: "start",
         padding: "32px 0",
         borderTop: i === 0 ? "1px solid var(--ink)" : "0.5px solid var(--rule)"
       }}>
         <div className="tk-page" style={{ fontSize: 32, color: "var(--sage-deep)" }}>{t.num}</div>
-        <div>
+        <div className="ar-tool-col-title">
           <span className="tk-tag" style={{ borderColor: "var(--sage-deep)", color: "var(--sage-deep)" }}>{t.tag}</span>
           <h3 style={{ fontFamily: "var(--jp-serif)", fontSize: 28, fontWeight: 500,
             margin: "10px 0 4px", lineHeight: 1.25 }}>
             {t.jp}
           </h3>
-          <div style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 18, color: "var(--ink-soft)" }}>
+          <div className="tk-serif" style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 18, color: "var(--ink-soft)" }}>
             {t.en}
           </div>
         </div>
-        <div style={{ fontFamily: "var(--jp-serif)", fontSize: 14, lineHeight: 1.85 }}>
+        <div className="ar-tool-col-desc" style={{ fontFamily: "var(--jp-serif)", fontSize: 14, lineHeight: 1.85 }}>
           {t.desc}
         </div>
-        <div className="ar-tool-thumb" style={{ height: 100, border: "0.5px solid var(--ink)" }}>
+        <div className="ar-tool-thumb ar-tool-col-thumb" style={{ height: 100, border: "0.5px solid var(--ink)" }}>
           {t.icon === "plan" && <FloorPlan width={240} height={100} label="" showFurniture={false} />}
           {t.icon === "compare" &&
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4, height: "100%", padding: 6, background: "var(--paper)" }}>
@@ -452,11 +558,11 @@ function ArVideos() {
   const sectionRef = React.useRef(null);
   const visible = useReveal(sectionRef, 0.06);
   return (
-    <div id="films" className="tk-snap" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)", background: "#efeadc" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
-        <div>
+    <div id="films" className="tk-snap ar-section-pad" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)", background: "#efeadc" }}>
+      <div className="ar-2col-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
+        <div className="ar-sticky-col" style={{ position: "sticky", top: 80 }}>
           <div className="tk-eye" style={{ color: "var(--sage-deep)" }}>§ 02</div>
-          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
+          <h2 className="ar-section-h2" style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
             fontSize: 80, lineHeight: 0.9, margin: "16px 0 0" }}>
             Films
           </h2>
@@ -491,13 +597,13 @@ function ArVideos() {
               <div>
                 {cat.videos.map((v, vi) => (
                   <a key={vi} href="#" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                    <div className="ar-video-row" style={{
+                    <div className="ar-video-row ar-video-row-grid" style={{
                       display: "grid", gridTemplateColumns: "60px 80px 1fr 1fr 80px",
                       gap: 18, alignItems: "center",
                       padding: "16px 0",
                       borderBottom: "0.5px solid var(--rule)"
                     }}>
-                      <span className="tk-mono" style={{ fontSize: 11, color: "var(--ink-soft)" }}>{v.num}</span>
+                      <span className="tk-mono ar-video-col-num" style={{ fontSize: 11, color: "var(--ink-soft)" }}>{v.num}</span>
                       <div className="ar-video-thumb" style={{ width: 80, height: 50, border: "0.5px solid var(--ink)", background: "var(--paper)", position: "relative" }}>
                         {ci === 0 && <FloorPlan width={80} height={50} label="" showFurniture={false} />}
                         {ci === 1 && <Elevation width={80} height={50} label="" />}
@@ -519,8 +625,8 @@ function ArVideos() {
                           </svg>
                         </div>
                       </div>
-                      <div style={{ fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 1.4 }}>{v.jp}</div>
-                      <div style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 14, color: "var(--ink-soft)" }}>
+                      <div className="ar-video-title" style={{ fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 1.4 }}>{v.jp}</div>
+                      <div className="ar-video-col-cat" style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 14, color: "var(--ink-soft)" }}>
                         {cat.en}
                       </div>
                       <div className="tk-mono" style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "right" }}>▶ {v.min}</div>
@@ -541,7 +647,7 @@ function ArAbout() {
   const statsRef = React.useRef(null);
   const visible = useReveal(statsRef, 0.15);
   return (
-    <div id="about" className="tk-snap" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)", position: "relative", overflow: "hidden" }}>
+    <div id="about" className="tk-snap ar-section-pad" style={{ padding: "100px 64px 80px", borderBottom: "0.5px solid var(--ink)", position: "relative", overflow: "hidden" }}>
       {/* Background watermark */}
       <div aria-hidden="true" style={{
         position: "absolute", right: -50, top: "50%",
@@ -550,10 +656,11 @@ function ArAbout() {
       }}>
         <TakoTsubo width={440} height={594} />
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
+
+      <div className="ar-2col-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
         <div>
           <div className="tk-eye" style={{ color: "var(--sage-deep)" }}>§ 03</div>
-          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
+          <h2 className="ar-section-h2" style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
             fontSize: 80, lineHeight: 0.9, margin: "16px 0 0" }}>
             About
           </h2>
@@ -562,14 +669,14 @@ function ArAbout() {
           </div>
         </div>
         <div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 32, alignItems: "start" }}>
+          <div className="ar-about-textgrid" style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 32, alignItems: "start" }}>
             <p className="tk-dropcap" style={{
               fontFamily: "var(--jp-serif)", fontSize: 17, lineHeight: 2.1,
               textAlign: "justify", margin: 0
             }}>メガネをかけた、たこやきのような何か。家づくりを始めました。
 施主目線で注文住宅の話題を扱っています。 YouTube に動画を投稿し、合間に自分が欲しかった 小道具を作って並べています。 この場所はその店先のようなもので、商品はぜんぶ無料、 コーヒーもないけれど、よかったら少しだけ見ていってください。
             </p>
-            <div>
+            <div className="ar-about-char" style={{ display: "flex", flexDirection: "column" }}>
               <Takomaru size={220} />
               <div className="tk-mono" style={{ marginTop: 6, fontSize: 10,
                 letterSpacing: "0.14em", color: "var(--ink-soft)", textAlign: "center" }}>
@@ -578,12 +685,12 @@ function ArAbout() {
             </div>
           </div>
 
-          <div ref={statsRef} style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+          <div ref={statsRef} className="ar-stats-grid" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
             borderTop: "1px solid var(--ink)", borderBottom: "1px solid var(--ink)" }}>
             {[
-              { n: "2025", l: "始まり" },
-              { n: "3",    l: "本の動画" },
-              { n: "0.01k", l: "登録者" },
+              { n: "2025",   l: "始まり" },
+              { n: "3",      l: "本の動画" },
+              { n: "0.01k",  l: "登録者" },
               { n: "03 / ∞", l: "公開中の道具" }
             ].map((s, i) => (
               <div key={i} className={`ar-stat ar-reveal d${Math.min(i+1,3)} ${visible ? 'in' : ''}`}
@@ -603,7 +710,7 @@ function ArAbout() {
 // ── Contact ───────────────────────────────────────────────────────────────
 function ArContact() {
   return (
-    <div className="tk-snap" style={{ padding: "100px 64px 64px", background: "var(--ink)", color: "#f5f1e8", position: "relative", overflow: "hidden" }}>
+    <div className="tk-snap ar-contact-outer" style={{ padding: "100px 64px 64px", background: "var(--ink)", color: "#f5f1e8", position: "relative", overflow: "hidden" }}>
       {/* Decorative tsubo on dark background */}
       <div aria-hidden="true" style={{
         position: "absolute", left: 32, bottom: -30,
@@ -611,10 +718,11 @@ function ArContact() {
       }}>
         <TakoTsubo width={200} height={270} light={true} />
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
+
+      <div className="ar-2col-grid" style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 56, alignItems: "start" }}>
         <div>
           <div className="tk-eye" style={{ color: "var(--wood)" }}>§ 04</div>
-          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
+          <h2 className="ar-section-h2" style={{ fontFamily: "var(--serif)", fontWeight: 300, fontStyle: "italic",
             fontSize: 80, lineHeight: 0.9, margin: "16px 0 0", color: "#f5f1e8" }}>
             Contact
           </h2>
@@ -623,7 +731,7 @@ function ArContact() {
           </div>
         </div>
         <div>
-          <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 48, alignItems: "start" }}>
+          <div className="ar-contact-cols" style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 48, alignItems: "start" }}>
             <div>
               <div className="tk-eye" style={{ color: "var(--wood)" }}>EMAIL</div>
               <a href="mailto:hello@takomaru.house" className="ar-email-link"
