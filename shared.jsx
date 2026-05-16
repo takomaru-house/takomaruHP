@@ -287,18 +287,20 @@ function FurnitureMark({ kind = "chair", size = 32 }){
 
 // ── data ────────────────────────────────────────────────────────────────────
 const TOOLS = [
-  { id: "madori", num: "01", icon: "plan",
+  { id: "spec", num: "01", icon: "specs",
+    jp: "住宅会社仕様比較ツール", en: "Builder Spec Board",
+    desc: "複数の住宅会社の仕様を横並びで比較し、選定の判断材料を一望できる。",
+    tag: "COMPARATOR", status: "公開中 / LIVE",
+    url: "https://inumaru-kazuya.github.io/takomaru-SpecBoard/" },
+  { id: "madori", num: "02", icon: "plan",
     jp: "間取り生成ツール", en: "Floor Plan Generator",
     desc: "敷地条件と要件を入力すると、複数パターンの間取りを生成して比較できる。",
     tag: "GENERATOR", status: "公開中 / LIVE" },
-  { id: "diff", num: "02", icon: "compare",
-    jp: "PDF差分検出ツール", en: "PDF Diff Detector",
+  { id: "diff", num: "03", icon: "pdfdiff",
+    jp: "PDF 差分 検出ツール", en: "PDF Diff Checker",
     desc: "改訂前後の図面PDFを重ねて、変更箇所を視覚的にハイライト。打ち合わせの工数を圧縮。",
-    tag: "UTILITY", status: "公開中 / LIVE" },
-  { id: "land", num: "03", icon: "land",
-    jp: "土地形状シミュレータ", en: "Site Shape Simulator",
-    desc: "旗竿地・整形地・傾斜地など、土地形状ごとの建築可能ボリュームを試算。",
-    tag: "SIMULATOR", status: "近日公開 / SOON" },
+    tag: "UTILITY", status: "公開中 / LIVE",
+    url: "https://inumaru-kazuya.github.io/takomaru-tool-PDFDiff/" },
 ];
 
 const VIDEO_CATEGORIES = [

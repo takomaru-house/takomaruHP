@@ -499,8 +499,10 @@ function ArTools() {
 }
 
 function ArToolRow({ t, i }) {
+  const href = t.url || "#";
+  const linkProps = t.url ? { target: "_blank", rel: "noopener noreferrer" } : {};
   return (
-    <a href="#" style={{ textDecoration: "none", color: "inherit", display: "block" }}>
+    <a href={href} {...linkProps} style={{ textDecoration: "none", color: "inherit", display: "block" }}>
       <div className="ar-tool-row ar-tool-row-grid" style={{
         display: "grid", gridTemplateColumns: "70px 1.4fr 1fr 240px 80px",
         gap: 24, alignItems: "start",
@@ -528,6 +530,94 @@ function ArToolRow({ t, i }) {
               <div className="tk-img" style={{ borderColor: "var(--ink)" }} />
               <div className="tk-img" style={{ background: `repeating-linear-gradient(135deg, rgba(179,90,58,0.12) 0 6px, rgba(0,0,0,0) 6px 14px), var(--paper)`, borderColor: "var(--rust)" }} />
             </div>
+          }
+          {t.icon === "pdfdiff" &&
+            <svg viewBox="0 0 240 100" width="100%" height="100%" preserveAspectRatio="none" style={{ background: "var(--paper)", display: "block" }}>
+              <g>
+                <path d="M 14 12 L 92 12 L 104 24 L 104 88 L 14 88 Z" fill="var(--bg)" stroke="var(--ink)" strokeWidth="0.6" />
+                <path d="M 92 12 L 92 24 L 104 24" fill="none" stroke="var(--ink)" strokeWidth="0.6" />
+                <g fill="var(--ink-soft)">
+                  <rect x="22" y="30" width="58" height="2.5" />
+                  <rect x="22" y="38" width="50" height="2.5" />
+                </g>
+                <rect x="18" y="45" width="82" height="6" fill="var(--rust)" opacity="0.22" />
+                <rect x="22" y="47" width="62" height="2.5" fill="var(--rust)" />
+                <g fill="var(--ink-soft)">
+                  <rect x="22" y="57" width="66" height="2.5" />
+                  <rect x="22" y="65" width="46" height="2.5" />
+                </g>
+                <rect x="18" y="70" width="82" height="6" fill="var(--rust)" opacity="0.22" />
+                <rect x="22" y="72" width="56" height="2.5" fill="var(--rust)" />
+                <rect x="22" y="80" width="38" height="2.5" fill="var(--ink-soft)" />
+              </g>
+              <g>
+                <path d="M 136 12 L 214 12 L 226 24 L 226 88 L 136 88 Z" fill="var(--bg)" stroke="var(--ink)" strokeWidth="0.6" />
+                <path d="M 214 12 L 214 24 L 226 24" fill="none" stroke="var(--ink)" strokeWidth="0.6" />
+                <g fill="var(--ink-soft)">
+                  <rect x="144" y="30" width="58" height="2.5" />
+                  <rect x="144" y="38" width="50" height="2.5" />
+                </g>
+                <rect x="140" y="45" width="82" height="6" fill="var(--sage-deep)" opacity="0.22" />
+                <rect x="144" y="47" width="44" height="2.5" fill="var(--sage-deep)" />
+                <g fill="var(--ink-soft)">
+                  <rect x="144" y="57" width="66" height="2.5" />
+                  <rect x="144" y="65" width="46" height="2.5" />
+                </g>
+                <rect x="140" y="70" width="82" height="6" fill="var(--sage-deep)" opacity="0.22" />
+                <rect x="144" y="72" width="68" height="2.5" fill="var(--sage-deep)" />
+                <rect x="144" y="80" width="38" height="2.5" fill="var(--ink-soft)" />
+              </g>
+              <g stroke="var(--ink)" strokeWidth="0.9" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="112" y1="50" x2="128" y2="50" />
+                <polyline points="124,46 128,50 124,54" />
+              </g>
+              <g fontFamily="var(--font-mono, monospace)" fontSize="6" fill="var(--ink-soft)" textAnchor="middle">
+                <text x="59" y="22">BEFORE</text>
+                <text x="181" y="22">AFTER</text>
+              </g>
+            </svg>
+          }
+          {t.icon === "specs" &&
+            <svg viewBox="0 0 240 100" width="100%" height="100%" preserveAspectRatio="none" style={{ background: "var(--paper)", display: "block" }}>
+              <rect x="130" y="10" width="50" height="80" fill="var(--wood)" opacity="0.10" />
+              <rect x="8" y="10" width="224" height="16" fill="var(--sage-deep)" opacity="0.14" />
+              <g stroke="var(--ink)" strokeWidth="0.6" fill="none">
+                <rect x="8" y="10" width="224" height="80" />
+                <line x1="80" y1="10" x2="80" y2="90" />
+                <line x1="130" y1="10" x2="130" y2="90" />
+                <line x1="180" y1="10" x2="180" y2="90" />
+                <line x1="8" y1="26" x2="232" y2="26" />
+                <line x1="8" y1="42" x2="232" y2="42" />
+                <line x1="8" y1="58" x2="232" y2="58" />
+                <line x1="8" y1="74" x2="232" y2="74" />
+              </g>
+              <g fill="var(--ink-soft)">
+                <rect x="14" y="16" width="30" height="3" />
+                <rect x="93" y="16" width="24" height="3" />
+                <rect x="143" y="16" width="24" height="3" />
+                <rect x="193" y="16" width="24" height="3" />
+                <rect x="14" y="32" width="42" height="3" />
+                <rect x="14" y="48" width="52" height="3" />
+                <rect x="14" y="64" width="38" height="3" />
+                <rect x="14" y="80" width="48" height="3" />
+              </g>
+              <g stroke="var(--sage-deep)" strokeWidth="1.4" fill="none">
+                <circle cx="105" cy="34" r="4" />
+                <circle cx="155" cy="50" r="4" />
+                <circle cx="105" cy="66" r="4" />
+                <circle cx="205" cy="34" r="4" />
+                <circle cx="205" cy="82" r="4" />
+                <circle cx="155" cy="66" r="4" />
+              </g>
+              <g stroke="var(--rust)" strokeWidth="1.4" strokeLinecap="round">
+                <line x1="151" y1="30" x2="159" y2="38" />
+                <line x1="159" y1="30" x2="151" y2="38" />
+                <line x1="101" y1="78" x2="109" y2="86" />
+                <line x1="109" y1="78" x2="101" y2="86" />
+                <line x1="201" y1="62" x2="209" y2="70" />
+                <line x1="209" y1="62" x2="201" y2="70" />
+              </g>
+            </svg>
           }
           {t.icon === "land" &&
             <svg viewBox="0 0 240 100" width="100%" height="100%" style={{ background: "var(--paper)" }}>
