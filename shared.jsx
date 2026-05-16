@@ -4,12 +4,12 @@
 const TAKOMARU_SRC = (typeof window !== 'undefined' && window.__resources && window.__resources.takomaruPng) || "assets/takomaru.png";
 
 // ── Takomaru sprite ─────────────────────────────────────────────────────────
-function Takomaru({ size = 200, style = {}, rot = 0, flip = false }){
+function Takomaru({ size = 200, style = {}, rot = 0, flip = false, className = "" }){
   return (
     <img
       src={TAKOMARU_SRC}
       alt="タコまる"
-      className="tk-takomaru"
+      className={`tk-takomaru ${className}`.trim()}
       style={{
         width: size, height: size, objectFit: "contain",
         transform: `rotate(${rot}deg) scaleX(${flip ? -1 : 1})`,

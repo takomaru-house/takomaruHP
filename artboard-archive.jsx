@@ -205,12 +205,32 @@ function ArtboardArchive() {
 
           /* ── Video rows: 5-col → 3-col ── */
           .ar-video-row-grid {
-            grid-template-columns: 64px 1fr 52px !important;
-            gap: 10px !important;
+            grid-template-columns: 64px 1fr 44px !important;
+            gap: 12px !important;
+            padding: 12px 0 !important;
           }
           .ar-video-col-num { display: none !important; }
           .ar-video-col-cat { display: none !important; }
           .ar-video-title { font-size: 14px !important; line-height: 1.5 !important; }
+          /* thumb は 80px のインライン幅で列をはみ出すため、ここで丸める */
+          .ar-video-thumb {
+            width: 64px !important;
+            height: 40px !important;
+          }
+
+          /* ── Films: カテゴリヘッダを縦積みにして詰まりを解消 ── */
+          .ar-video-cat-header {
+            grid-template-columns: 1fr !important;
+            gap: 4px !important;
+            padding-bottom: 10px !important;
+          }
+          .ar-video-cat-num { font-size: 13px !important; letter-spacing: 0.05em !important; }
+          .ar-video-cat-title h3 { font-size: 19px !important; line-height: 1.3 !important; }
+          .ar-video-cat-sub { font-size: 13px !important; line-height: 1.4 !important; }
+          .ar-video-cat-all { display: none !important; }
+
+          /* ── Films: 左カラムの Takomaru は記事と重なって見づらいので非表示 ── */
+          .ar-films-takomaru { display: none !important; }
 
           /* ── About ── */
           .ar-about-textgrid { grid-template-columns: 1fr !important; }
@@ -659,29 +679,29 @@ function ArVideos() {
           <div style={{ fontFamily: "var(--jp-serif)", fontSize: 22, fontWeight: 400, marginTop: 8 }}>
             映像 / 動画
           </div>
-          <div style={{ marginTop: 22, fontFamily: "var(--jp-serif)", fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.95 }}>
+          <div className="ar-films-lead" style={{ marginTop: 22, fontFamily: "var(--jp-serif)", fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.95 }}>
             YouTube に毎週 1 本ずつ。3 つのシリーズに分けて並べています。
           </div>
-          <Takomaru size={96} style={{ marginTop: 28, transform: "rotate(6deg)" }} />
+          <Takomaru size={96} className="ar-films-takomaru" style={{ marginTop: 28, transform: "rotate(6deg)" }} />
         </div>
 
         <div ref={sectionRef}>
           {VIDEO_CATEGORIES.map((cat, ci) => (
             <div key={cat.id} className={`ar-reveal d${Math.min(ci+1,3)} ${visible ? 'in' : ''}`}
                  style={{ marginBottom: ci < VIDEO_CATEGORIES.length - 1 ? 56 : 0 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 16,
+              <div className="ar-video-cat-header" style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 16,
                 alignItems: "baseline", paddingBottom: 12, borderBottom: "1px solid var(--ink)" }}>
-                <div className="tk-page" style={{ fontSize: 22, color: "var(--sage-deep)" }}>
+                <div className="tk-page ar-video-cat-num" style={{ fontSize: 22, color: "var(--sage-deep)" }}>
                   S/{String(ci + 1).padStart(2, "0")}
                 </div>
-                <div>
+                <div className="ar-video-cat-title">
                   <h3 style={{ fontFamily: "var(--jp-serif)", fontSize: 26, fontWeight: 500,
                     margin: 0, lineHeight: 1.2 }}>{cat.jp}</h3>
-                  <div style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 16, color: "var(--ink-soft)" }}>
+                  <div className="ar-video-cat-sub" style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 16, color: "var(--ink-soft)" }}>
                     {cat.en} — {cat.sub}
                   </div>
                 </div>
-                <a href="#" className="tk-mono" style={{ fontSize: 11, letterSpacing: "0.14em",
+                <a href="#" className="tk-mono ar-video-cat-all" style={{ fontSize: 11, letterSpacing: "0.14em",
                   color: "var(--ink)", textDecoration: "none" }}>ALL →</a>
               </div>
               <div>
