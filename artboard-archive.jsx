@@ -388,7 +388,7 @@ function ArHero() {
           </div>
           <div className="ar-hero-meta-r" style={{ textAlign: "right" }}>
             <div className="tk-eye" style={{ display: "inline-block", textAlign: "left", fontSize: 11 }}>
-              3 SECTIONS · 142 FILMS<br />3 TOOLS · ∞ NOTES
+              3 SECTIONS · 142 FILMS<br />4 TOOLS · ∞ NOTES
             </div>
           </div>
         </div>
@@ -482,7 +482,7 @@ function ArTools() {
             シングルページのアプリケーションとして、それぞれ独立した URL に置いてあります。
           </div>
           <div className="tk-mono" style={{ marginTop: 22, fontSize: 11, color: "var(--ink-soft)" }}>
-            03 ITEMS · 順次追加
+            04 ITEMS · 順次追加
           </div>
         </div>
 
@@ -645,6 +645,38 @@ function ArToolRow({ t, i }) {
                 <polygon points="20,80 50,30 100,40 110,80" fill="var(--bg)" />
                 <polygon points="130,80 140,40 200,30 220,80" fill="var(--bg)" />
                 <line x1="0" y1="90" x2="240" y2="90" strokeDasharray="3 3" />
+              </g>
+            </svg>
+          }
+          {t.icon === "ytmap" &&
+            <svg viewBox="0 0 240 100" width="100%" height="100%" preserveAspectRatio="none" style={{ background: "var(--paper)", display: "block" }}>
+              <g stroke="var(--ink-soft)" strokeWidth="0.6" fill="none" opacity="0.7">
+                <path d="M 100 50 Q 78 32 52 22" />
+                <path d="M 100 50 Q 78 50 40 50" />
+                <path d="M 100 50 Q 78 68 50 82" />
+                <path d="M 140 50 Q 162 30 196 20" />
+                <path d="M 140 50 Q 168 50 204 50" />
+                <path d="M 140 50 Q 162 70 196 82" />
+                <path d="M 52 22 Q 38 14 22 10" />
+                <path d="M 196 20 Q 212 14 228 10" />
+                <path d="M 196 82 Q 212 88 228 92" />
+                <path d="M 40 50 Q 26 50 12 56" />
+              </g>
+              <g>
+                <circle cx="52" cy="22" r="5" fill="var(--paper)" stroke="var(--sage-deep)" strokeWidth="0.9" />
+                <circle cx="40" cy="50" r="5" fill="var(--paper)" stroke="var(--sage-deep)" strokeWidth="0.9" />
+                <circle cx="50" cy="82" r="5" fill="var(--paper)" stroke="var(--sage-deep)" strokeWidth="0.9" />
+                <circle cx="196" cy="20" r="5" fill="var(--paper)" stroke="var(--rust)" strokeWidth="0.9" />
+                <circle cx="204" cy="50" r="5" fill="var(--paper)" stroke="var(--rust)" strokeWidth="0.9" />
+                <circle cx="196" cy="82" r="5" fill="var(--paper)" stroke="var(--rust)" strokeWidth="0.9" />
+                <circle cx="22" cy="10" r="2.6" fill="var(--sage-deep)" opacity="0.55" />
+                <circle cx="12" cy="56" r="2.6" fill="var(--sage-deep)" opacity="0.55" />
+                <circle cx="228" cy="10" r="2.6" fill="var(--rust)" opacity="0.55" />
+                <circle cx="228" cy="92" r="2.6" fill="var(--rust)" opacity="0.55" />
+              </g>
+              <g>
+                <rect x="98" y="38" width="44" height="24" rx="4" ry="4" fill="var(--ink)" />
+                <polygon points="113,46 125,50 113,54" fill="var(--paper)" />
               </g>
             </svg>
           }
