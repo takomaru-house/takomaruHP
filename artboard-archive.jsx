@@ -317,7 +317,7 @@ function ArHeader() {
         an index of houses, films, and tools
       </div>
       <div className="tk-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: "var(--ink-soft)", textAlign: "right" }}>
-        2026.03&nbsp;·&nbsp;KYOTO
+        2026.03&nbsp;·&nbsp;KANSAI
       </div>
     </div>
   );
@@ -506,7 +506,7 @@ function ArTools() {
                 What should we build next?
               </div>
             </div>
-            <a href="mailto:hello@takomaru.house" className="tk-mono" style={{ fontSize: 12,
+            <a href="mailto:takomaru.house@gmail.com" className="tk-mono" style={{ fontSize: 12,
               letterSpacing: "0.14em", color: "var(--ink)", textDecoration: "none",
               borderBottom: "0.5px solid var(--ink)", paddingBottom: 2 }}>
               SUGGEST →
@@ -827,16 +827,15 @@ function ArAbout() {
             </div>
           </div>
 
-          <div ref={statsRef} className="ar-stats-grid" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+          <div ref={statsRef} className="ar-stats-grid" style={{ marginTop: 40, display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
             borderTop: "1px solid var(--ink)", borderBottom: "1px solid var(--ink)" }}>
             {[
               { n: "2025",   l: "始まり" },
               { n: "3",      l: "本の動画" },
-              { n: "0.01k",  l: "登録者" },
               { n: "03 / ∞", l: "公開中の道具" }
             ].map((s, i) => (
               <div key={i} className={`ar-stat ar-reveal d${Math.min(i+1,3)} ${visible ? 'in' : ''}`}
-                   style={{ padding: "24px 0", borderRight: i < 3 ? "0.5px solid var(--rule)" : "none",
+                   style={{ padding: "24px 0", borderRight: i < 2 ? "0.5px solid var(--rule)" : "none",
                             paddingRight: 16, paddingLeft: i > 0 ? 16 : 0 }}>
                 <div className="ar-stat-n" style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: 48, lineHeight: 1, color: "var(--sage-deep)" }}>{s.n}</div>
                 <div className="tk-eye" style={{ marginTop: 6, fontSize: 9 }}>{s.l}</div>
@@ -876,12 +875,12 @@ function ArContact() {
           <div className="ar-contact-cols" style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 48, alignItems: "start" }}>
             <div>
               <div className="tk-eye" style={{ color: "var(--wood)" }}>EMAIL</div>
-              <a href="mailto:hello@takomaru.house" className="ar-email-link"
+              <a href="mailto:takomaru.house@gmail.com" className="ar-email-link"
                 style={{ display: "block", marginTop: 12,
                   fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 44,
                   color: "#f5f1e8", textDecoration: "underline", textUnderlineOffset: 6,
                   letterSpacing: "-0.01em" }}>
-                hello@takomaru.house
+                takomaru.house@gmail.com
               </a>
               <div style={{ marginTop: 18, fontFamily: "var(--jp-serif)", fontSize: 14, lineHeight: 2,
                 color: "rgba(245,241,232,0.8)", maxWidth: 460 }}>取材・出演・コラボ・道具のリクエストはお気軽に。
@@ -893,11 +892,11 @@ function ArContact() {
               <div style={{ marginTop: 12 }}>
                 {[
                   { en: "YOUTUBE",   handle: "@takomaru_house" },
-                  { en: "X",         handle: "@takomaru_house" },
+                  { en: "X",         handle: "@takomaru_house", url: "https://x.com/takomaru_house" },
                   { en: "INSTAGRAM", handle: "@takomaru.house" },
                   { en: "NOTE",      handle: "/takomaru" }
                 ].map((s, i) => (
-                  <a key={i} href="#" style={{ textDecoration: "none", color: "inherit" }}>
+                  <a key={i} href={s.url || "#"} style={{ textDecoration: "none", color: "inherit" }}>
                     <div className="ar-social-row" style={{ display: "grid", gridTemplateColumns: "100px 1fr 24px",
                       alignItems: "baseline", padding: "14px 0",
                       borderTop: "0.5px solid rgba(245,241,232,0.3)" }}>
@@ -914,7 +913,7 @@ function ArContact() {
           <div style={{ marginTop: 56, paddingTop: 24, borderTop: "0.5px solid rgba(245,241,232,0.3)",
             display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <div className="tk-mono" style={{ fontSize: 11, letterSpacing: "0.14em", color: "rgba(245,241,232,0.5)" }}>
-              © 2026 TAKOMARU · ARCHIVE · KYOTO
+              © 2026 TAKOMARU · ARCHIVE · KANSAI
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <Takomaru size={48} />
